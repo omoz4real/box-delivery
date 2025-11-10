@@ -9,15 +9,16 @@ Each **Box** has a limited weight capacity and battery level. The system enforce
 ### data.sql (preloaded sample boxes)
 
 ```sql
-INSERT INTO BOX (id, txref, weight_limit, battery_capacity, state) VALUES (1, 'BOX00000000000000001', 500, 80, 'IDLE');
-INSERT INTO BOX (id, txref, weight_limit, battery_capacity, state) VALUES (2, 'BOX_LOW_BATTERY_00002', 300, 20, 'IDLE');
+INSERT INTO BOX (txref, weight_limit, battery_capacity, state) VALUES
+('BOX100', 400, 80, 'IDLE'),
+('BOX300', 200, 20, 'IDLE');
 ```
 
 > This preloads two boxes: one with 80% battery and one with 20%.
 
 ---
 
-## Build & Run instructions (README snippet)
+## Build & Run instructions 
 
 ```
 # Build
@@ -38,13 +39,13 @@ curl -X POST -H "Content-Type: application/json" -d '{"txref":"BOX123","weightLi
 curl http://localhost:8080/api/boxes/available
 
 # 3) Check battery
-curl http://localhost:8080/api/boxes/BOX00000000000000001/battery
+curl http://localhost:8080/api/boxes/BOX123/battery
 
 # 4) Load items
 curl -X POST -H "Content-Type: application/json" -d '{"items":[{"name":"widget-1","weight":100,"code":"WIDGET_1"},{"name":"widget-2","weight":200,"code":"WIDGET_2"}]}' http://localhost:8080/api/boxes/BOX00000000000000001/load
 
 # 5) Get loaded items
-curl http://localhost:8080/api/boxes/BOX00000000000000001/items
+curl http://localhost:8080/api/boxes/BOX123/items
 ```
 
 ---
@@ -60,7 +61,7 @@ $ curl -s http://localhost:8080/api/boxes/available | jq
 [
   {
     "id": 1,
-    "txref": "BOX00000000000000001",
+    "txref": "BOX123",
     "weightLimit": 500,
     "batteryCapacity": 80,
     "state": "IDLE",
@@ -72,14 +73,14 @@ $ curl -s http://localhost:8080/api/boxes/available | jq
 2) GET battery
 
 ```
-$ curl -s http://localhost:8080/api/boxes/BOX00000000000000001/battery
+$ curl -s http://localhost:8080/api/boxes/BOX100/battery
 80
 ```
 
 3) Load items successfully
 
 ```
-$ curl -s -X POST -H "Content-Type: application/json" -d '{"items":[{"name":"lens_1","weight":150,"code":"LENS_1"}]}' http://localhost:8080/api/boxes/BOX00000000000000001/load | jq
+$ curl -s -X POST -H "Content-Type: application/json" -d '{"items":[{"name":"lens_1","weight":150,"code":"LENS_1"}]}' http://localhost:8080/api/boxes/BOX100/load | jq
 {
   "id": 1,
   "txref": "BOX00000000000000001",
@@ -93,7 +94,7 @@ $ curl -s -X POST -H "Content-Type: application/json" -d '{"items":[{"name":"len
 4) Attempt to load when battery &lt; 25
 
 ```
-$ curl -s -X POST -H "Content-Type: application/json" -d '{"items":[{"name":"a","weight":10,"code":"A_1"}]}' http://localhost:8080/api/boxes/BOX_LOW_BATTERY_00002/load
+$ curl -s -X POST -H "Content-Type: application/json" -d '{"items":[{"name":"a","weight":10,"code":"A_1"}]}' http://localhost:8080/api/boxes/BOX300/load
 Cannot load: battery below 25%
 ```
 
@@ -107,7 +108,7 @@ Cannot load: weight limit exceeded
 6) Get items
 
 ```
-$ curl -s http://localhost:8080/api/boxes/BOX00000000000000001/items | jq
+$ curl -s http://localhost:8080/api/boxes/BOX100/items | jq
 [
   {
     "id": 1,
