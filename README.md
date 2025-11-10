@@ -83,7 +83,7 @@ $ curl -s http://localhost:8080/api/boxes/BOX100/battery
 $ curl -s -X POST -H "Content-Type: application/json" -d '{"items":[{"name":"lens_1","weight":150,"code":"LENS_1"}]}' http://localhost:8080/api/boxes/BOX100/load | jq
 {
   "id": 1,
-  "txref": "BOX00000000000000001",
+  "txref": "BOX100",
   "weightLimit": 500,
   "batteryCapacity": 80,
   "state": "LOADED",
