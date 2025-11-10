@@ -21,6 +21,10 @@ INSERT INTO BOX (txref, weight_limit, battery_capacity, state) VALUES
 ## Build & Run instructions 
 
 ```
+# Clone the repository
+git clone https://github.com/omoz4real/box-delivery
+cd box-delivery
+
 # Build
 mvn clean package
 
