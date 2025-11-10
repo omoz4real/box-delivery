@@ -4,7 +4,7 @@
  */
 package com.example.controller;
 
-import com.example.dto.LoadItemsRequest.ItemDto;
+import com.example.dto.LoadItemsRequest;
 import com.example.model.Box;
 import com.example.model.Item;
 import com.example.service.BoxService;
@@ -40,9 +40,9 @@ public class BoxController {
     @PostMapping("/{txref}/load")
     public ResponseEntity<List<Item>> loadItems(
             @PathVariable String txref,
-            @RequestBody List<ItemDto> itemsDto
+            @RequestBody LoadItemsRequest request
     ) {
-        List<Item> loaded = boxService.loadItems(txref, itemsDto);
+        List<Item> loaded = boxService.loadItems(txref, request.items());
         return ResponseEntity.ok(loaded);
     }
 

@@ -4,6 +4,7 @@
  */
 package com.example.service;
 
+import com.example.dto.LoadItemsRequest;
 import com.example.dto.LoadItemsRequest.ItemDto;
 import com.example.model.Box;
 import com.example.model.BoxState;
@@ -59,7 +60,7 @@ public class BoxService {
         boxRepository.save(box);
 
         int currentWeight = box.currentLoadWeight();
-        int newWeight = itemsDto.stream().mapToInt(ItemDto::weight).sum();
+        int newWeight = itemsDto.stream().mapToInt(LoadItemsRequest.ItemDto::weight).sum();
 
         if (currentWeight + newWeight > box.getWeightLimit()) {
             throw new IllegalStateException("Total weight exceeds box weight limit");
