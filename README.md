@@ -42,7 +42,7 @@ curl http://localhost:8080/api/boxes/available
 curl http://localhost:8080/api/boxes/BOX123/battery
 
 # 4) Load items
-curl -X POST -H "Content-Type: application/json" -d '{"items":[{"name":"widget-1","weight":100,"code":"WIDGET_1"},{"name":"widget-2","weight":200,"code":"WIDGET_2"}]}' http://localhost:8080/api/boxes/BOX00000000000000001/load
+curl -X POST -H "Content-Type: application/json" -d '{"items":[{"name":"widget-1","weight":100,"code":"WIDGET_1"},{"name":"widget-2","weight":200,"code":"WIDGET_2"}]}' http://localhost:8080/api/boxes/BOX123/load
 
 # 5) Get loaded items
 curl http://localhost:8080/api/boxes/BOX123/items
